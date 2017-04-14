@@ -6,5 +6,5 @@
 
 <strong>Goals:</strong>
 
-1) Unscramble a word and display the top ten most likely answers.
-2) Unscramble a sentence and display the top ten most likely answers.
+<s>1) Unscramble a word and display the most likely answers.</s>
+2) Unscramble a sentence and display the most likely answers.
