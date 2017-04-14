@@ -7,4 +7,4 @@
 <strong>Goals:</strong>
 
 <s>1) Unscramble a word and display the most likely answers.</s>
-2) Unscramble a sentence and display the most likely answers.
+<p>2) Unscramble a sentence and display the most likely answers.</p>
