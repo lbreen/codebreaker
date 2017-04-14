@@ -44,12 +44,24 @@ def find_definitions(words)
 end
 
 # Basic terminal user interface
-puts "What is the scrambled word?"
-word = gets.chomp
+puts "What is the scrambled word/sentence?"
+input = gets.chomp
 puts ""
 puts "Possible answers: "
-unscrambled_words = unscramble_word(word)
-definitions = find_definitions(unscrambled_words)
 
-# Display possible unscrambled words with their definitions
-definitions.each { |word, definition| puts "#{word} -> #{definition}"}
+# Simple router to depending on whether the input is a word or a sentence
+if input.split(" ").length == 1
+  unscrambled_words = unscramble_word(input)
+  definitions = find_definitions(unscrambled_words)
+
+  # Display possible unscrambled words with their definitions
+  definitions.each { |word, definition| puts "#{word} -> #{definition}"}
+else
+  unscrambled_sentence = []
+  # Split the inputted sentence into its component words and unscramble each word
+  input.split(" ").each { |word| unscrambled_sentence << unscramble_word(word) }
+
+  # Retrieve the first possible word and join together to form a sentence
+  # TODO: Compute every possible sentence combination
+  puts unscrambled_sentence.map { |words| words[0]}.join(" ").capitalize
+end
