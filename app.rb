@@ -55,24 +55,13 @@ end
 
 # Basic terminal user interface
 puts "What is the scrambled word?"
-#input = gets.chomp
+input = gets.chomp
 puts ""
 puts "Possible answers: "
-time_taken = {}
 
-inputs = ["hello", "words", "chair", "cricket"]
+unscrambled_words = unscramble_word(input)
+definitions = find_definitions(unscrambled_words)
 
-inputs.each_with_index do |input, index|
-  start_time = Time.now
-  unscrambled_words = unscramble_word(input)
-  definitions = find_definitions(unscrambled_words)
+# Display possible unscrambled words with their definitions
+definitions.each { |word, definition| puts "#{word} -> #{definition}"}
 
-  # Display possible unscrambled words with their definitions
-  definitions.each { |word, definition| puts "#{word} -> #{definition}"}
-  end_time = Time.now
-  time_taken[index] = {}
-  time_taken[index][input] = end_time - start_time
-end
-
-puts "Total time taken:"
-time_taken.each { |word, time| puts "#{word} -> #{time}"}
