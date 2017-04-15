@@ -2,16 +2,11 @@ require 'rest-client'
 require 'json'
 
 def unscramble_word(scrambled_word)
-  dictionary_words = []
-
   # Import all the words from the dictionary file into an array
-  File.read("dictionary.csv").each_line { |line| dictionary_words << line }
+  dictionary_words = JSON.parse(File.read("dictionary.json"))
 
   # Select words from the dictionary array which have the same letters
-  answers = dictionary_words.select { |word| word.chars.sort.drop(1) == scrambled_word.chars.sort }
-
-  # Remove the '\n' characters from the end of each answer then return the answers array
-  return answers.map {|answer| answer.slice!(0..-2)}
+  dictionary_words[scrambled_word.length.to_s].select { |word| word.chars.sort == scrambled_word.chars.sort }
 end
 
 def find_definitions(words)
@@ -58,26 +53,26 @@ def csv_to_json(csv_file_path, json_file_path)
   File.open(json_file_path,"w") { |f| f.write(JSON.pretty_generate(json_file)) }
 end
 
-# # Basic terminal user interface
-# puts "What is the scrambled word?"
-# #input = gets.chomp
-# puts ""
-# puts "Possible answers: "
-# time_taken = {}
+# Basic terminal user interface
+puts "What is the scrambled word?"
+#input = gets.chomp
+puts ""
+puts "Possible answers: "
+time_taken = {}
 
-# inputs = ["hello", "words", "chair", "cricket"]
+inputs = ["hello", "words", "chair", "cricket"]
 
-# inputs.each_with_index do |input, index|
-#   start_time = Time.now
-#   unscrambled_words = unscramble_word(input)
-#   definitions = find_definitions(unscrambled_words)
+inputs.each_with_index do |input, index|
+  start_time = Time.now
+  unscrambled_words = unscramble_word(input)
+  definitions = find_definitions(unscrambled_words)
 
-#   # Display possible unscrambled words with their definitions
-#   definitions.each { |word, definition| puts "#{word} -> #{definition}"}
-#   end_time = Time.now
-#   time_taken[index] = {}
-#   time_taken[index][input] = end_time - start_time
-# end
+  # Display possible unscrambled words with their definitions
+  definitions.each { |word, definition| puts "#{word} -> #{definition}"}
+  end_time = Time.now
+  time_taken[index] = {}
+  time_taken[index][input] = end_time - start_time
+end
 
-# puts "Total time taken:"
-# time_taken.each { |word, time| puts "#{word} -> #{time}"}
+puts "Total time taken:"
+time_taken.each { |word, time| puts "#{word} -> #{time}"}
