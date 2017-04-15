@@ -43,19 +43,19 @@ def find_definitions(words)
   definitions
 end
 
-csv_file = []
-json_file = {}
+def csv_to_json(csv_file_path, json_file_path)
+  csv_file = []
+  json_file = {}
 
-File.read("dictionary.csv").each_line { |line| csv_file << line.slice(0..-2) }
+  File.read(csv_file_path).each_line { |line| csv_file << line.slice(0..-2) }
 
-csv_file.each do |word|
-  json_file[word.length] = [] if json_file[word.length].nil?
+  csv_file.each do |word|
+    json_file[word.length] = [] if json_file[word.length].nil?
 
-  json_file[word.length] << word
-end
+    json_file[word.length] << word
+  end
 
-File.open("dictionary.json","w") do |f|
-  f.write(JSON.pretty_generate(json_file))
+  File.open(json_file_path,"w") { |f| f.write(JSON.pretty_generate(json_file)) }
 end
 
 # # Basic terminal user interface
