@@ -38,21 +38,6 @@ def find_definitions(words)
   definitions
 end
 
-def csv_to_json(csv_file_path, json_file_path)
-  csv_file = []
-  json_file = {}
-
-  File.read(csv_file_path).each_line { |line| csv_file << line.slice(0..-2) }
-
-  csv_file.each do |word|
-    json_file[word.length] = [] if json_file[word.length].nil?
-
-    json_file[word.length] << word
-  end
-
-  File.open(json_file_path,"w") { |f| f.write(JSON.pretty_generate(json_file)) }
-end
-
 def add_word_to_dictionary(new_word)
   # Retrieve the dictionary
   dictionary = JSON.parse(File.read("dictionary.json"))
@@ -80,6 +65,7 @@ option = gets.chomp
 if option.to_i == 1
   # Basic terminal user interface
   puts "What is the scrambled word?"
+  print "> "
   input = gets.chomp
   puts ""
   puts "Possible answers: "
