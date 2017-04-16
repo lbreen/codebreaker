@@ -3,10 +3,10 @@ require 'json'
 
 def unscramble_word(scrambled_word)
   # Import all the words from the dictionary file into an array
-  dictionary_words = JSON.parse(File.read("dictionary.json"))
+  dictionary = JSON.parse(File.read("dictionary.json"))
 
   # Select words from the dictionary array which have the same letters
-  dictionary_words[scrambled_word.length.to_s].select { |word| word.chars.sort == scrambled_word.chars.sort }
+  dictionary[scrambled_word.length.to_s].select { |word| word.chars.sort == scrambled_word.chars.sort }
 end
 
 def find_definitions(words)
@@ -22,7 +22,7 @@ def find_definitions(words)
     url = "https://od-api.oxforddictionaries.com/api/v1/entries/en/#{word}"
     begin
       # Make request to the dictionary api
-      response = RestClient.get url, {'app_id' => app_id, 'app_key' => app_key}
+      response = RestClient.get url, {'app_id' => app_id, 'app_key' => app_key, timeout: 10, open_timeout: 10}
 
       # Parse the api response and access the definition from the parsed_response.
       # Simultaneously, construct the definitions hash with the unscrambled word
@@ -38,30 +38,48 @@ def find_definitions(words)
   definitions
 end
 
-def csv_to_json(csv_file_path, json_file_path)
-  csv_file = []
-  json_file = {}
+def add_word_to_dictionary(new_word)
+  # Retrieve the dictionary
+  dictionary = JSON.parse(File.read("dictionary.json"))
 
-  File.read(csv_file_path).each_line { |line| csv_file << line.slice(0..-2) }
+  # If it is the first word of that length, create a new array
+  dictionary[new_word.length.to_s] = [] if dictionary[new_word.length.to_s].nil?
 
-  csv_file.each do |word|
-    json_file[word.length] = [] if json_file[word.length].nil?
-
-    json_file[word.length] << word
+  if dictionary[new_word.length.to_s].select{ |word| word == new_word }.empty?
+    # If the word is not in the dictionary, add it
+    dictionary[new_word.length.to_s] << new_word
+    puts "#{new_word.capitalize} has been added to the dictionary!"
+  else
+    # If the word is already in the dictionary, do not add it
+    puts "#{new_word.capitalize} is already in the dictionary."
   end
-
-  File.open(json_file_path,"w") { |f| f.write(JSON.pretty_generate(json_file)) }
+  File.open("dictionary.json","w") { |f| f.write(JSON.pretty_generate(dictionary)) }
 end
 
-# Basic terminal user interface
-puts "What is the scrambled word?"
-input = gets.chomp
-puts ""
-puts "Possible answers: "
+puts "Select option 1 or 2"
+puts "1 - Unscramble a word"
+puts "2 - Add a word to the dictionary"
+print "> "
+option = gets.chomp
 
-unscrambled_words = unscramble_word(input)
-definitions = find_definitions(unscrambled_words)
+if option.to_i == 1
+  # Basic terminal user interface
+  puts "What is the scrambled word?"
+  print "> "
+  input = gets.chomp
+  puts ""
+  puts "Possible answers: "
 
-# Display possible unscrambled words with their definitions
-definitions.each { |word, definition| puts "#{word} -> #{definition}"}
+  unscrambled_words = unscramble_word(input)
+  definitions = find_definitions(unscrambled_words)
+
+  # Display possible unscrambled words with their definitions
+  definitions.each { |word, definition| puts "#{word} -> #{definition}" }
+elsif option.to_i == 2
+  puts "Enter the new word"
+  input = gets.chomp
+  add_word_to_dictionary(input)
+else
+  "Incorrect input"
+end
 
