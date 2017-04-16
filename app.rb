@@ -16,25 +16,25 @@ def find_definitions(words)
 
   definitions = {}
 
-  # # Iterate over each unscrambled word to retrieve their definition
-  # words.each do |word|
-  #   # Construct the request url
-  #   url = "https://od-api.oxforddictionaries.com/api/v1/entries/en/#{word}"
-  #   begin
-  #     # Make request to the dictionary api
-  #     response = RestClient.get url, {'app_id' => app_id, 'app_key' => app_key}
+  # Iterate over each unscrambled word to retrieve their definition
+  words.each do |word|
+    # Construct the request url
+    url = "https://od-api.oxforddictionaries.com/api/v1/entries/en/#{word}"
+    begin
+      # Make request to the dictionary api
+      response = RestClient.get url, {'app_id' => app_id, 'app_key' => app_key, timeout: 10, open_timeout: 10}
 
-  #     # Parse the api response and access the definition from the parsed_response.
-  #     # Simultaneously, construct the definitions hash with the unscrambled word
-  #     # as the key and the definition as the value
-  #     definitions[word.capitalize] = JSON.parse(response.body)['results'][0]['lexicalEntries'][0]['entries'][0]['senses'][0]['definitions'][0].capitalize
+      # Parse the api response and access the definition from the parsed_response.
+      # Simultaneously, construct the definitions hash with the unscrambled word
+      # as the key and the definition as the value
+      definitions[word.capitalize] = JSON.parse(response.body)['results'][0]['lexicalEntries'][0]['entries'][0]['senses'][0]['definitions'][0].capitalize
 
-  #     # Rescue RestClient in case of any exceptions and state 'No definition found'
-  #     # in the definitions hash
-  #     rescue RestClient::ExceptionWithResponse => e
-  #       definitions[word.capitalize] = "No definition found"
-  #   end
-  # end
+      # Rescue RestClient in case of any exceptions and state 'No definition found'
+      # in the definitions hash
+      rescue RestClient::ExceptionWithResponse => e
+        definitions[word.capitalize] = "No definition found"
+    end
+  end
   definitions
 end
 
@@ -71,19 +71,29 @@ def add_word_to_dictionary(new_word)
   File.open("dictionary.json","w") { |f| f.write(JSON.pretty_generate(dictionary)) }
 end
 
-puts "New word"
-input = gets.chomp
-add_word_to_dictionary(input)
+puts "Select option 1 or 2"
+puts "1 - Unscramble a word"
+puts "2 - Add a word to the dictionary"
+print "> "
+option = gets.chomp
 
-# # Basic terminal user interface
-# puts "What is the scrambled word?"
-# input = gets.chomp
-# puts ""
-# puts "Possible answers: "
+if option.to_i == 1
+  # Basic terminal user interface
+  puts "What is the scrambled word?"
+  input = gets.chomp
+  puts ""
+  puts "Possible answers: "
 
-# unscrambled_words = unscramble_word(input)
-# definitions = find_definitions(unscrambled_words)
+  unscrambled_words = unscramble_word(input)
+  definitions = find_definitions(unscrambled_words)
 
-# # Display possible unscrambled words with their definitions
-# definitions.each { |word, definition| puts "#{word} -> #{definition}"}
+  # Display possible unscrambled words with their definitions
+  definitions.each { |word, definition| puts "#{word} -> #{definition}" }
+elsif option.to_i == 2
+  puts "Enter the new word"
+  input = gets.chomp
+  add_word_to_dictionary(input)
+else
+  "Incorrect input"
+end
 
