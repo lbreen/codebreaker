@@ -1,12 +1,13 @@
 require 'rest-client'
 require 'json'
 
-def unscramble_word(scrambled_word)
-  # Import all the words from the dictionary file into an array
-  dictionary = JSON.parse(File.read("dictionary.json"))
+def initialize_program
+  @dictionary = JSON.parse(File.read("dictionary.json"))
+end
 
+def unscramble_word(scrambled_word)
   # Select words from the dictionary array which have the same letters
-  dictionary[scrambled_word.length.to_s].select { |hash| hash["word"].chars.sort == scrambled_word.chars.sort }
+  @dictionary[scrambled_word.length.to_s].select { |hash| hash["word"].chars.sort == scrambled_word.chars.sort }
 end
 
 def find_definitions(word_hashes)
@@ -41,32 +42,30 @@ def find_definitions(word_hashes)
 end
 
 def add_word_to_dictionary(new_word, definition)
-  # Retrieve the dictionary
-  dictionary = JSON.parse(File.read("dictionary.json"))
-
   # If it is the first word of that length, create a new array
-  dictionary[new_word.length.to_s] = [] if dictionary[new_word.length.to_s].nil?
+  @dictionary[new_word.length.to_s] = [] if @dictionary[new_word.length.to_s].nil?
 
-  if dictionary[new_word.length.to_s].select{ |word_hash| word_hash['word'] == new_word }.empty?
+  if @dictionary[new_word.length.to_s].select{ |word_hash| word_hash['word'] == new_word }.empty?
     # If the word is not in the dictionary, add it
-    dictionary[new_word.length.to_s] << {word: new_word, definition: definition }
+    @dictionary[new_word.length.to_s] << {word: new_word, definition: definition }
     puts "#{new_word.capitalize} has been added to the dictionary!"
   else
     # If the word is already in the dictionary, do not add it
     puts "#{new_word.capitalize} is already in the dictionary."
   end
-  File.open("dictionary.json","w") { |f| f.write(JSON.pretty_generate(dictionary)) }
+  File.open("dictionary.json","w") { |f| f.write(JSON.pretty_generate(@dictionary)) }
 end
 
 def update_dictionary_definition(updated_word_hash)
-  dictionary = JSON.parse(File.read("dictionary.json"))
   new_word = updated_word_hash['word']
   definition = updated_word_hash['definition']
 
-  dictionary[new_word.length.to_s].select{ |word_hash| word_hash['word'] == new_word}[0]['definition'] = definition
+  @dictionary[new_word.length.to_s].select{ |word_hash| word_hash['word'] == new_word}[0]['definition'] = definition
 
-  File.open("dictionary.json","w") { |f| f.write(JSON.pretty_generate(dictionary)) }
+  File.open("dictionary.json","w") { |f| f.write(JSON.pretty_generate(@dictionary)) }
 end
+
+initialize_program
 
 puts "Select option 1 or 2"
 puts "1 - Unscramble a word"
