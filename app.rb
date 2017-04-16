@@ -55,18 +55,22 @@ end
 
 def add_word_to_dictionary(new_word)
   # Retrieve the dictionary
-  # Access the array for words of the same length
-  # If the word is already in the dictionary, do not add it
-  # If the word is not in the dictionary, add it
-  # If
   dictionary = JSON.parse(File.read("dictionary.json"))
 
+  # If it is the first word of that length, create a new array
+  dictionary[new_word.length.to_s] = [] if dictionary[new_word.length.to_s].nil?
+
   if dictionary[new_word.length.to_s].select{ |word| word == new_word }.empty?
+    # If the word is not in the dictionary, add it
     dictionary[new_word.length.to_s] << new_word
+    puts "#{new_word.capitalize} has been added to the dictionary!"
   else
+    # If the word is already in the dictionary, do not add it
     puts "#{new_word.capitalize} is already in the dictionary."
   end
+  File.open("dictionary.json","w") { |f| f.write(JSON.pretty_generate(dictionary)) }
 end
+
 puts "New word"
 input = gets.chomp
 add_word_to_dictionary(input)
