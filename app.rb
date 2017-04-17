@@ -64,8 +64,10 @@ def update_dictionary_definition(updated_word_hash)
   new_word = updated_word_hash['word']
   definition = updated_word_hash['definition']
 
+  # Access the definition in the word_hash and set it to the new definition
   @dictionary[new_word.length.to_s].select { |word_hash| word_hash['word'] == new_word }[0]['definition'] = definition
 
+  # Save the updated dictionary back in the JSON file
   File.open('dictionary.json', 'w') { |f| f.write(JSON.pretty_generate(@dictionary)) }
 end
 
