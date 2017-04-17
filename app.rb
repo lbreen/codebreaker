@@ -17,7 +17,7 @@ def find_definitions(word_hashes)
 
   # Iterate over each unscrambled word to retrieve their definition
   word_hashes.each do |word_hash|
-    if word_hash['definition'].empty?
+    if word_hash['definition'].empty? || word_hash['definition'] == 'No definition found - Please check your internet connection'
       # Construct the request url
       url = "https://od-api.oxforddictionaries.com/api/v1/entries/en/#{word_hash['word']}"
       begin
@@ -32,9 +32,9 @@ def find_definitions(word_hashes)
         # Rescue RestClient in case of any exceptions and state 'No definition found'
         # in the definitions hash
       rescue RestClient::ExceptionWithResponse
-        word_hash['definition'] = 'No definition found'
-      rescue SocketError => e
-        puts e
+        word_hash['definition'] = 'No definition found - Not in the dictionary'
+      rescue SocketError
+        word_hash['definition'] = 'No definition found - Please check your internet connection'
       end
       # Update the dictionary with the definition in order to reduce the number of API calls
       update_dictionary_definition(word_hash)
@@ -89,8 +89,8 @@ if option.to_i == 1
   definitions = find_definitions(unscrambled_words)
 
   # Display possible unscrambled words with their definitions
-  definitions.each do |word_hash|
-    puts "#{word_hash['word']} -> #{word_hash['definition']}"
+  definitions.each_with_index do |word_hash, index|
+    puts "#{index + 1}) #{word_hash['word']} -> #{word_hash['definition']}"
   end
 
 elsif option.to_i == 2
