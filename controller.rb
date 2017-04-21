@@ -1,9 +1,12 @@
-require_relative 'view'
 require 'json'
+require 'rest-client'
+require_relative 'view'
+require_relative 'word'
 
 class Controller
-  def initialize
-    @dictionary = JSON.parse(File.read('dictionary.json'))
+
+  def initialize(dictionary)
+    @dictionary = dictionary
     @view = View.new
   end
 
@@ -12,10 +15,21 @@ class Controller
     scrambled_word = @view.request_word
 
     # Select words from the dictionary array which have the same letters
-    unscrambled_words = @dictionary[scrambled_word.length.to_s].select { |hash| hash['word'].chars.sort == scrambled_word.chars.sort }
+    unscrambled_words = @dictionary.all[scrambled_word.length.to_s].select { |hash| hash['word'].chars.sort == scrambled_word.chars.sort }
 
     # List the word possibilities with definitions
     @view.list_unscrambled_words(find_definitions(unscrambled_words))
+  end
+
+  def add_word
+    # Request the new word and definition from the user
+    new_word = Word.new(@view.add_word)
+
+    # If not in the dictionary, add the new word and return true. Else,
+    # do not add the word and return false
+    success = @dictionary.add_word(new_word)
+
+    @view.confirm_word_added(success, new_word.word)
   end
 
   private

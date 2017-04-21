@@ -20,7 +20,7 @@ class Router
   def router_action(action)
     case action
     when 1 then @controller.unscramble_word
-    when 2 then # Add a word
+    when 2 then @controller.add_word
     when 3 then # Edit a word
     when 4 then stop
     else
