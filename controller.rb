@@ -12,29 +12,37 @@ class Controller
 
   def unscramble_word
     # Request word from user
-    scrambled_word = @view.request_word
+    scrambled_word = @view.request_word("What is the scrambled word?")
 
     # Select words from the dictionary array which have the same letters
     unscrambled_words = @dictionary.all[scrambled_word.length.to_s].select { |hash| hash['word'].chars.sort == scrambled_word.chars.sort }
 
     # List the word possibilities with definitions
-    @view.list_unscrambled_words(find_definitions(unscrambled_words))
+    @view.list_unscrambled_words(find_api_definitions(unscrambled_words))
   end
 
   def add_word
-    # Request the new word and definition from the user
+    # Request the new word and definition from the user.
     new_word = Word.new(@view.add_word)
 
     # If not in the dictionary, add the new word and return true. Else,
-    # do not add the word and return false
+    # do not add the word and return false.
     success = @dictionary.add_word(new_word)
 
+    # Inform the user if the new word was successfully added, or not.
     @view.confirm_word_added(success, new_word.word)
+  end
+
+  def edit_definition
+    word = @view.request_word("Please enter the word you wish to edit.")
+
+    # Retrieve the word from the dictionary
+    @dictionary.show(word)
   end
 
   private
 
-  def find_definitions(word_hashes)
+  def find_api_definitions(word_hashes)
     # Retrieve the app_id and app_key values
     app_id = JSON.parse(File.read('keys.json'))['APP_ID']
     app_key = JSON.parse(File.read('keys.json'))['APP_KEY']
@@ -61,7 +69,7 @@ class Controller
           word_hash['definition'] = 'No definition found - Please check your internet connection'
         end
         # Update the dictionary with the definition in order to reduce the number of API calls
-        update_dictionary_definition(word_hash)
+        @dictionary.update(word_hash)
       end
     end
     word_hashes

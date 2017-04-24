@@ -21,7 +21,7 @@ class Router
     case action
     when 1 then @controller.unscramble_word
     when 2 then @controller.add_word
-    when 3 then # Edit a word
+    when 3 then @controller.edit_definition
     when 4 then stop
     else
       puts "Sorry I don't understand what \"#{action}\" means."
@@ -38,7 +38,7 @@ class Router
     puts ""
     puts "1 - Unscramble a word"
     puts "2 - Add a word to the dictionary"
-    puts "3 - Edit a word in the dictionary"
+    puts "3 - Edit a definition in the dictionary"
     puts "4 - Exit the program"
   end
 end

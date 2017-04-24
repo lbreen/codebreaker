@@ -1,8 +1,8 @@
 class View
-  def request_word
-    puts "What is the scrambled word?"
+  def request_word(message)
+    puts message
     print "> "
-    word = gets.chomp
+    word = gets.chomp.downcase
   end
 
   def list_unscrambled_words(word_hashes)
