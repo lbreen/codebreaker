@@ -39,7 +39,7 @@ class View
     end
   end
 
-  def display_time(word, time_taken)
+  def display_time_taken(word, time_taken)
     puts ""
     puts "#{word} - #{time_taken}"
   end
