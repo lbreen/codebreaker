@@ -24,14 +24,14 @@
 
 ## Goals
 
-1) ~~Unscramble a word~~
-2) Unscramble a sentence
-3) ~~Provide definitions for the unscrambled words~~
-4) Sort word combinations from most likely to least likely
-5) ~~Allow users to add new words to the dictionary~~
-6) ~~Allow users to add definitions for their new words~~
-7) ~~Allow users to update definitions for existing words~~
-8) ~~Display the time taken for the program to unscramble a word~~
+- [X] Unscramble a word
+- [ ] Unscramble a sentence
+- [X] Provide definitions for the unscrambled words
+- [ ] Sort word combinations from most likely to least likely
+- [X] Allow users to add new words to the dictionary
+- [X] Allow users to add definitions for their new words
+- [X] Allow users to update definitions for existing words
+- [X] Display the time taken for the program to unscramble a word
 
 
 ## Installation
