@@ -4,7 +4,7 @@
   To create a ruby-based program to unscramble words
 
 ## Description
-  By passing a scrambled word or sentence as a parameter the program will rearrange the letter order to reveal the possible combinations and thus the unscrambled word. The program will also make an api request to an online dictionary, in order to retrieve a definition for the possible words. Those words which successfully respond with a definition will be ranked higher on the assumption that those words are more likely to be correct.
+  By passing a scrambled word, or sentence, as a parameter the program will rearrange the letter order to reveal the possible combinations and thus the unscrambled word. The program will also make an api request to an online dictionary, in order to retrieve a definition for the possible words. Those words which successfully respond with a definition will be ranked higher on the assumption that those words are more likely to be correct.
 
 ## Process
 
