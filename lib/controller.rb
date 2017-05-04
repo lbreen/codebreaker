@@ -14,15 +14,19 @@ class Controller
   def unscramble_word
     # Request word from user
     scrambled_word = @view.request_input("What is the scrambled word?")
-    start_time = Time.now
+    start_time = Time.now # Start stopwatch
     # Select words from the dictionary array which have the same letters
     unscrambled_words = @dictionary.all[scrambled_word.length.to_s].select { |hash| hash['word'].chars.sort == scrambled_word.chars.sort }
 
     # List the word possibilities with definitions
     @view.list_unscrambled_words(find_api_definitions(unscrambled_words))
-    end_time = Time.now
+    end_time = Time.now # Stop stopwatch
+
+    # Calculate the time taken
     time_taken = end_time - start_time
-    @view.display_time(scrambled_word, time_taken)
+
+    # Display the time taken
+    @view.display_time_taken(scrambled_word, time_taken)
   end
 
   def add_word
