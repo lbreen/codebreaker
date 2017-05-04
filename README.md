@@ -6,9 +6,9 @@
 
 <strong>Process:</strong>
 
-1) User inputs scrambled word => "cairh"
+1) User inputs scrambled word => `"cairh"`
 
-2) Compute possible combinations => ['archi', 'chair', 'chari', 'chria', 'richa']
+2) Compute possible combinations => `['archi', 'chair', 'chari', 'chria', 'richa']`
 
 3) Retrieve definitions from an online dictionary, if there is no definition already in the local dictionary
 
