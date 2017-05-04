@@ -18,6 +18,7 @@ class View
     word_hashes.each_with_index do |word_hash, index|
       puts "#{index + 1}) #{word_hash['word']} -> #{word_hash['definition']}"
     end
+    puts ""
   end
 
   def add_word

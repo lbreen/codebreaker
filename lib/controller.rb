@@ -55,8 +55,8 @@ class Controller
 
   def find_api_definitions(word_hashes)
     # Retrieve the app_id and app_key values
-    app_id = JSON.parse(File.read('keys.json'))['APP_ID']
-    app_key = JSON.parse(File.read('keys.json'))['APP_KEY']
+    app_id = JSON.parse(File.read('lib/keys.json'))['APP_ID']
+    app_key = JSON.parse(File.read('lib/keys.json'))['APP_KEY']
 
     # Iterate over each unscrambled word to retrieve their definition
     word_hashes.each do |word_hash|
