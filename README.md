@@ -1,10 +1,12 @@
-<h1>Ruby word unscrambler</h1>
+# Ruby word unscrambler
 
-<strong>Aim:</strong> To create a ruby-based program to unscramble words
+## Aim
+  To create a ruby-based program to unscramble words
 
-<strong>Description:</strong> By passing a scrambled word or sentence as a parameter the program will rearrange the letter order to reveal the possible combinations and thus the unscrambled word. The program will also make an api request to an online dictionary, in order to retrieve a definition for the possible words. Those words which successfully respond with a definition will be ranked higher on the assumption that those words are more likely to be correct.
+## Description
+  By passing a scrambled word or sentence as a parameter the program will rearrange the letter order to reveal the possible combinations and thus the unscrambled word. The program will also make an api request to an online dictionary, in order to retrieve a definition for the possible words. Those words which successfully respond with a definition will be ranked higher on the assumption that those words are more likely to be correct.
 
-<strong>Process:</strong>
+## Process
 
 1) User inputs scrambled word => `"cairh"`
 
@@ -20,16 +22,23 @@
 > 4) chria -> No definition found - Not in the dictionary
 > 5) richa -> No definition found - Not in the dictionary
 
+## Goals
+
+~~1) Unscramble a word~~
+2) Unscramble a sentence
+~~3) Provide definitions for the unscrambled words~~
+4) Sort word combinations from most likely to least likely
+~~5) Allow users to add new words to the dictionary~~
+~~6) Allow users to add definitions for their new words~~
+~~7) Allow users to update definitions for existing words~~
+~~8) Display the time taken for the program to unscramble a word~~
 
 
-<strong>Goals:</strong>
+## Installation
 
-<s>1) Unscramble a word</s>
-<p>2) Unscramble a sentence</p>
-<s>3) Provide definitions for the unscrambled words</s>
-<p>4) Sort word combinations from most likely to least likely</p>
-<s>5) Allow users to add new words to the dictionary</s>
-<s>6) Allow users to add definitions for their new words</s>
-<s>7) Allow users to update definitions for existing words</s>
-<s>8) Display the time taken for the program to unscramble a word</s>
+1) Clone this repository to your computer `git clone`
+2) Open the repository locally
+3) Run `ruby lib/app.rb` in your terminal (working to transiton from command-line to GUI)
+
+
 
