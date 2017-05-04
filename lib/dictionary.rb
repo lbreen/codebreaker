@@ -2,7 +2,7 @@ require 'json'
 
 class Dictionary
   def initialize
-    @dictionary = JSON.parse(File.read('lib/dictionary.json'))
+    @dictionary = JSON.parse(File.read('dictionary.json'))
   end
 
   def all

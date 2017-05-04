@@ -38,4 +38,9 @@ class View
       puts "#{word.capitalize} is already in the dictionary."
     end
   end
+
+  def display_time(word, time_taken)
+    puts ""
+    puts "#{word} - #{time_taken}"
+  end
 end

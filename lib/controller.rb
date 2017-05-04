@@ -14,12 +14,15 @@ class Controller
   def unscramble_word
     # Request word from user
     scrambled_word = @view.request_input("What is the scrambled word?")
-
+    start_time = Time.now
     # Select words from the dictionary array which have the same letters
     unscrambled_words = @dictionary.all[scrambled_word.length.to_s].select { |hash| hash['word'].chars.sort == scrambled_word.chars.sort }
 
     # List the word possibilities with definitions
     @view.list_unscrambled_words(find_api_definitions(unscrambled_words))
+    end_time = Time.now
+    time_taken = end_time - start_time
+    @view.display_time(scrambled_word, time_taken)
   end
 
   def add_word
@@ -55,8 +58,8 @@ class Controller
 
   def find_api_definitions(word_hashes)
     # Retrieve the app_id and app_key values
-    app_id = JSON.parse(File.read('lib/keys.json'))['APP_ID']
-    app_key = JSON.parse(File.read('lib/keys.json'))['APP_KEY']
+    app_id = JSON.parse(File.read('keys.json'))['APP_ID']
+    app_key = JSON.parse(File.read('keys.json'))['APP_KEY']
 
     # Iterate over each unscrambled word to retrieve their definition
     word_hashes.each do |word_hash|
