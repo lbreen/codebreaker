@@ -90,6 +90,6 @@ class Controller
         @dictionary.update(word_hash)
       end
     end
-    word_hashes
+    word_hashes.sort! { |x, y| x['definition'] <=> y['definition'] }
   end
 end
