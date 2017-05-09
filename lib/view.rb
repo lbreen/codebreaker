@@ -39,6 +39,13 @@ class View
     end
   end
 
+  def confirm_definition_updated(word, definition)
+    puts ""
+    puts "Definition updated!"
+    puts "Word: #{word.capitalize}"
+    puts "Definition: #{definition.capitalize}"
+  end
+
   def display_time_taken(word, time_taken)
     puts ""
     puts "#{word} - #{time_taken}"

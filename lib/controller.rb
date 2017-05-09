@@ -1,6 +1,5 @@
 require 'json'
 require 'rest-client'
-#require 'pry-byebug'
 require_relative 'view'
 require_relative 'word'
 
@@ -55,7 +54,9 @@ class Controller
     # Request new definition
     new_definition = @view.request_input("Please enter the new definition.")
     # Update the dictionary
-    @dictionary.update({'word' => word, 'definition' => definition})
+    @dictionary.update({'word' => word, 'definition' => new_definition})
+    # Confirm to that the definition had been updated
+    @view.confirm_definition_updated(word, new_definition)
   end
 
   private
