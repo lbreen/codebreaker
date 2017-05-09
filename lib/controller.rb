@@ -81,7 +81,9 @@ class Controller
 
           # Rescue RestClient in case of any exceptions and state 'No definition found'
           # in the definitions hash
-        rescue RestClient::ExceptionWithResponse || NoMethodError
+        rescue NoMethodError
+          word_hash['definition'] = 'No definition found - Not in the dictionary'
+        rescue RestClient::ExceptionWithResponse
           word_hash['definition'] = 'No definition found - Not in the dictionary'
         rescue SocketError
           word_hash['definition'] = 'No definition found - Please check your internet connection'
