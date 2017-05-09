@@ -92,6 +92,13 @@ class Controller
         @dictionary.update(word_hash)
       end
     end
-    word_hashes.sort! { |x, y| x['definition'] <=> y['definition'] }
+    sort_by_definition(word_hashes)
+  end
+
+  def sort_by_definition(word_hashes)
+    words_with_definitions = word_hashes.select { |word_hash| word_hash['definition'] != 'No definition found - Not in the dictionary'}
+    words_without_definitions = word_hashes.select { |word_hash| word_hash['definition'] == 'No definition found - Not in the dictionary'}
+
+    words_with_definitions + words_without_definitions
   end
 end
