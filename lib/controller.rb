@@ -81,7 +81,9 @@ class Controller
 
           # Rescue RestClient in case of any exceptions and state 'No definition found'
           # in the definitions hash
-        rescue RestClient::ExceptionWithResponse || NoMethodError
+        rescue NoMethodError
+          word_hash['definition'] = 'No definition found - Not in the dictionary'
+        rescue RestClient::ExceptionWithResponse
           word_hash['definition'] = 'No definition found - Not in the dictionary'
         rescue SocketError
           word_hash['definition'] = 'No definition found - Please check your internet connection'
@@ -90,6 +92,13 @@ class Controller
         @dictionary.update(word_hash)
       end
     end
-    word_hashes
+    sort_by_definition(word_hashes)
+  end
+
+  def sort_by_definition(word_hashes)
+    words_with_definitions = word_hashes.select { |word_hash| word_hash['definition'] != 'No definition found - Not in the dictionary'}
+    words_without_definitions = word_hashes.select { |word_hash| word_hash['definition'] == 'No definition found - Not in the dictionary'}
+
+    words_with_definitions + words_without_definitions
   end
 end
