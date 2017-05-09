@@ -27,7 +27,7 @@
 - [X] Unscramble a word
 - [ ] Unscramble a sentence
 - [X] Provide definitions for the unscrambled words
-- [ ] Sort word combinations from most likely to least likely
+- [X] Sort word combinations from most likely to least likely
 - [X] Allow users to add new words to the dictionary
 - [X] Allow users to add definitions for their new words
 - [X] Allow users to update definitions for existing words
