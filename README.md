@@ -37,8 +37,8 @@
 ## Installation
 
 1) Clone this repository to your computer `git clone`
-2) Open the repository locally
-3) Run `ruby lib/app.rb` in your terminal (working to transiton from command-line to GUI)
+2) Open the repository locally and move to the `lib` folder
+3) Run `ruby app.rb` in your terminal (working to transiton from command-line to GUI)
 
 
 
