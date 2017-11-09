@@ -3,7 +3,7 @@ require 'json'
 
 class Dictionary
   def initialize
-    @dictionary = JSON.parse(File.read('dictionary.json'))
+    @dictionary = JSON.parse(File.read("#{Dir.pwd}/dictionary.json"))
   end
 
   def all
@@ -41,6 +41,6 @@ class Dictionary
     @dictionary[new_word.length.to_s].select { |word_hash| word_hash['word'] == new_word }[0]['definition'] = definition
 
     # Save the updated dictionary back in the JSON file
-    File.open('dictionary.json', 'w') { |f| f.write(JSON.pretty_generate(@dictionary)) }
+    File.open("#{Dir.pwd}/dictionary.json", 'w') { |f| f.write(JSON.pretty_generate(@dictionary)) }
   end
 end

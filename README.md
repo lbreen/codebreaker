@@ -12,7 +12,7 @@
 
 2) Compute possible combinations => `['archi', 'chair', 'chari', 'chria', 'richa']`
 
-3) Retrieve definitions from an online dictionary, if there is no definition already in the local dictionary
+3) Retrieve definitions from an online dictionary, unless there is already a definition in the local dictionary
 
 4) Display possible words with definitions
 
