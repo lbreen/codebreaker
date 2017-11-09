@@ -1,5 +1,5 @@
 require 'json'
-# require 'pry-byebug'
+require 'pry-byebug'
 
 class Dictionary
   def initialize
@@ -17,15 +17,16 @@ class Dictionary
   end
 
   def add_word(word_params)
-    key = word_params.word.length.to_s
+    new_word = word_params['word']
+    key = new_word.length.to_s
 
     # If it is the first word of that length, create a new array
     @dictionary[key] = [] if @dictionary[key].nil?
 
-    if @dictionary[key].select { |word_hash| word_hash['word'] == word_params.word }.empty?
+    if @dictionary[key].select { |word_hash| word_hash['word'] == new_word }.empty?
       # If the word is not in the dictionary, add it and return true
-      @dictionary[key] << { 'word' => word_params.word, 'definition' => word_params.definition }
-      File.open('dictionary.json', 'w') { |f| f.write(JSON.pretty_generate(@dictionary)) }
+      @dictionary[key] << { 'word' => new_word, 'definition' => word_params['definition'] }
+      File.open('lib/dictionary.json', 'w') { |f| f.write(JSON.pretty_generate(@dictionary)) }
       true
     else
       # If the word is already in the dictionary, do not add it and return false
