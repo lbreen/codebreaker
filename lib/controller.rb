@@ -2,6 +2,7 @@ require 'json'
 require 'rest-client'
 require_relative 'view'
 require_relative 'word'
+require 'pry-byebug'
 
 class Controller
   def initialize(dictionary)
@@ -29,14 +30,14 @@ class Controller
 
   def add_word
     # Request the new word and definition from the user.
-    new_word = Word.new(@view.add_word)
+    new_word = @view.add_word
 
     # If not in the dictionary, add the new word and return true. Else,
     # do not add the word and return false.
     success = @dictionary.add_word(new_word)
 
     # Inform the user if the new word was successfully added, or not.
-    @view.confirm_word_added(success, new_word.word)
+    @view.confirm_word_added(success, new_word['word'])
   end
 
   def edit_definition

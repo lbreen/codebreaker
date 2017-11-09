@@ -13,12 +13,15 @@ class View
   end
 
   def list_unscrambled_words(word_hashes)
-    # Display possible unscrambled words with their definitions
     puts ''
-    word_hashes.each_with_index do |word_hash, index|
-      puts "#{index + 1}) #{word_hash['word']} -> #{word_hash['definition']}"
+    if word_hashes.empty?
+      puts 'Those scrambled letters do not match any word in the dictionary.'
+    else
+      # Display possible unscrambled words with their definitions
+      word_hashes.each_with_index do |word_hash, index|
+        puts "#{index + 1}) #{word_hash['word']} -> #{word_hash['definition']}"
+      end
     end
-    puts ''
   end
 
   def add_word
