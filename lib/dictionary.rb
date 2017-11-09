@@ -1,9 +1,9 @@
 require 'json'
-#require 'pry-byebug'
+# require 'pry-byebug'
 
 class Dictionary
   def initialize
-    @dictionary = JSON.parse(File.read("#{Dir.pwd}/dictionary.json"))
+    @dictionary = JSON.parse(File.read("#{Dir.pwd}/lib/dictionary.json"))
   end
 
   def all
@@ -13,7 +13,7 @@ class Dictionary
   def show(word)
     key = word.length.to_s
     # Retrieve one word and its definition
-    @dictionary[key].select { |word_hash| word_hash['word'] == word}[0]
+    @dictionary[key].select { |word_hash| word_hash['word'] == word }[0]
   end
 
   def add_word(word_params)
@@ -24,7 +24,7 @@ class Dictionary
 
     if @dictionary[key].select { |word_hash| word_hash['word'] == word_params.word }.empty?
       # If the word is not in the dictionary, add it and return true
-      @dictionary[key] << {'word' => word_params.word, 'definition' => word_params.definition}
+      @dictionary[key] << { 'word' => word_params.word, 'definition' => word_params.definition }
       File.open('dictionary.json', 'w') { |f| f.write(JSON.pretty_generate(@dictionary)) }
       true
     else
@@ -41,6 +41,6 @@ class Dictionary
     @dictionary[new_word.length.to_s].select { |word_hash| word_hash['word'] == new_word }[0]['definition'] = definition
 
     # Save the updated dictionary back in the JSON file
-    File.open("#{Dir.pwd}/dictionary.json", 'w') { |f| f.write(JSON.pretty_generate(@dictionary)) }
+    File.open("#{Dir.pwd}/lib/dictionary.json", 'w') { |f| f.write(JSON.pretty_generate(@dictionary)) }
   end
 end

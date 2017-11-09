@@ -4,7 +4,6 @@ require_relative 'view'
 require_relative 'word'
 
 class Controller
-
   def initialize(dictionary)
     @dictionary = dictionary
     @view = View.new
@@ -12,7 +11,7 @@ class Controller
 
   def unscramble_word
     # Request word from user
-    scrambled_word = @view.request_input("What is the scrambled word?")
+    scrambled_word = @view.request_input('What is the scrambled word?')
     start_time = Time.now # Start stopwatch
     # Select words from the dictionary array which have the same letters
     unscrambled_words = @dictionary.all[scrambled_word.length.to_s].select { |hash| hash['word'].chars.sort == scrambled_word.chars.sort }
@@ -42,7 +41,7 @@ class Controller
 
   def edit_definition
     # Request the word from the user
-    word = @view.request_input("Please enter the word you wish to edit.")
+    word = @view.request_input('Please enter the word you wish to edit.')
 
     # Retrieve the word from the dictionary
     definition = @dictionary.show(word)['definition']
@@ -50,11 +49,11 @@ class Controller
     # Display the current definition and ask if they wish to continue
     response = @view.display_definition(definition)
     # Redirect to main menu if the user has entered no
-    return if response.chars[0] == "n"
+    return if response.chars[0] == 'n'
     # Request new definition
-    new_definition = @view.request_input("Please enter the new definition.")
+    new_definition = @view.request_input('Please enter the new definition.')
     # Update the dictionary
-    @dictionary.update({'word' => word, 'definition' => new_definition})
+    @dictionary.update('word' => word, 'definition' => new_definition)
     # Confirm to that the definition had been updated
     @view.confirm_definition_updated(word, new_definition)
   end
@@ -63,42 +62,41 @@ class Controller
 
   def find_api_definitions(word_hashes)
     # Retrieve the app_id and app_key values
-    app_id = JSON.parse(File.read("#{Dir.pwd}/keys.json"))['APP_ID']
-    app_key = JSON.parse(File.read("#{Dir.pwd}/keys.json"))['APP_KEY']
+    app_id = JSON.parse(File.read("#{Dir.pwd}/lib/keys.json"))['APP_ID']
+    app_key = JSON.parse(File.read("#{Dir.pwd}/lib/keys.json"))['APP_KEY']
 
     # Iterate over each unscrambled word to retrieve their definition
     word_hashes.each do |word_hash|
-      if word_hash['definition'].empty? || word_hash['definition'] == 'No definition found - Please check your internet connection'
-        # Construct the request url
-        url = "https://od-api.oxforddictionaries.com/api/v1/entries/en/#{word_hash['word']}"
-        begin
-          # Make request to the dictionary api
-          response = RestClient.get url, 'app_id' => app_id, 'app_key' => app_key
+      next unless word_hash['definition'].empty? || word_hash['definition'] == 'No definition found - Please check your internet connection'
+      # Construct the request url
+      url = "https://od-api.oxforddictionaries.com/api/v1/entries/en/#{word_hash['word']}"
+      begin
+        # Make request to the dictionary api
+        response = RestClient.get url, 'app_id' => app_id, 'app_key' => app_key
 
-          # Parse the api response and access the definition.
-          # Simultaneously, construct the definitions hash with the unscrambled
-          # word as the key and the definition as the value
-          word_hash['definition'] = JSON.parse(response.body)['results'][0]['lexicalEntries'][0]['entries'][0]['senses'][0]['definitions'][0].capitalize
+        # Parse the api response and access the definition.
+        # Simultaneously, construct the definitions hash with the unscrambled
+        # word as the key and the definition as the value
+        word_hash['definition'] = JSON.parse(response.body)['results'][0]['lexicalEntries'][0]['entries'][0]['senses'][0]['definitions'][0].capitalize
 
-          # Rescue RestClient in case of any exceptions and state 'No definition found'
-          # in the definitions hash
-        rescue NoMethodError
-          word_hash['definition'] = 'No definition found - Not in the dictionary'
-        rescue RestClient::ExceptionWithResponse
-          word_hash['definition'] = 'No definition found - Not in the dictionary'
-        rescue SocketError
-          word_hash['definition'] = 'No definition found - Please check your internet connection'
-        end
-        # Update the dictionary with the definition in order to reduce the number of API calls
-        @dictionary.update(word_hash)
+        # Rescue RestClient in case of any exceptions and state 'No definition found'
+        # in the definitions hash
+      rescue NoMethodError
+        word_hash['definition'] = 'No definition found - Not in the dictionary'
+      rescue RestClient::ExceptionWithResponse
+        word_hash['definition'] = 'No definition found - Not in the dictionary'
+      rescue SocketError
+        word_hash['definition'] = 'No definition found - Please check your internet connection'
       end
+      # Update the dictionary with the definition in order to reduce the number of API calls
+      @dictionary.update(word_hash)
     end
     sort_by_definition(word_hashes)
   end
 
   def sort_by_definition(word_hashes)
-    words_with_definitions = word_hashes.select { |word_hash| word_hash['definition'] != 'No definition found - Not in the dictionary'}
-    words_without_definitions = word_hashes.select { |word_hash| word_hash['definition'] == 'No definition found - Not in the dictionary'}
+    words_with_definitions = word_hashes.reject { |word_hash| word_hash['definition'] == 'No definition found - Not in the dictionary' }
+    words_without_definitions = word_hashes.select { |word_hash| word_hash['definition'] == 'No definition found - Not in the dictionary' }
 
     words_with_definitions + words_without_definitions
   end

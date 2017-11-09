@@ -1,0 +1,12 @@
+AllCops:
+  Exclude:
+    - Rakefile
+    - .rspec
+    - .gitignore
+    - spec/**
+    - README.md
+    - time_test_results.xlsx
+Metrics/LineLength:
+  Enabled: false
+Documentation:
+  Enabled: false

@@ -1,34 +1,34 @@
 class View
   def request_input(message)
     puts message
-    print "> "
+    print '> '
     gets.chomp.downcase
   end
 
   def display_definition(definition)
     puts "Current definition: #{definition}"
-    puts "Do you want to edit this definition? Yes or No"
-    print "> "
+    puts 'Do you want to edit this definition? Yes or No'
+    print '> '
     gets.chomp.downcase
   end
 
   def list_unscrambled_words(word_hashes)
     # Display possible unscrambled words with their definitions
-    puts ""
+    puts ''
     word_hashes.each_with_index do |word_hash, index|
       puts "#{index + 1}) #{word_hash['word']} -> #{word_hash['definition']}"
     end
-    puts ""
+    puts ''
   end
 
   def add_word
-    puts "What word do you want to add to the dictionary?"
-    print "> "
+    puts 'What word do you want to add to the dictionary?'
+    print '> '
     word = gets.chomp.downcase
     puts "What is the defintion of #{word}?"
-    print "> "
+    print '> '
     definition = gets.chomp.downcase
-    {'word' => word, 'definition' => definition}
+    { 'word' => word, 'definition' => definition }
   end
 
   def confirm_word_added(success, word)
@@ -40,14 +40,14 @@ class View
   end
 
   def confirm_definition_updated(word, definition)
-    puts ""
-    puts "Definition updated!"
+    puts ''
+    puts 'Definition updated!'
     puts "Word: #{word.capitalize}"
     puts "Definition: #{definition.capitalize}"
   end
 
   def display_time_taken(word, time_taken)
-    puts ""
+    puts ''
     puts "#{word} - #{time_taken}"
   end
 end

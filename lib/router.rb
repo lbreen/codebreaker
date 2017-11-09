@@ -7,12 +7,11 @@ class Router
   def run
     while @running
       display_tasks
-      print "> "
+      print '> '
       action = gets.chomp.to_i
       print `clear`
       router_action(action)
     end
-
   end
 
   private
@@ -25,19 +24,19 @@ class Router
     when 4 then stop
     else
       puts "Sorry I don't understand what \"#{action}\" means."
-      puts "Please press either 1, 2, 3 or 4..."
+      puts 'Please press either 1, 2, 3 or 4...'
     end
   end
 
   def stop
     @running = false
-    puts "Goodbye!"
+    puts 'Goodbye!'
   end
 
   def display_tasks
-    puts "1 - Unscramble a word"
-    puts "2 - Add a word to the dictionary"
-    puts "3 - Edit a definition in the dictionary"
-    puts "4 - Exit the program"
+    puts '1 - Unscramble a word'
+    puts '2 - Add a word to the dictionary'
+    puts '3 - Edit a definition in the dictionary'
+    puts '4 - Exit the program'
   end
 end
